@@ -2,7 +2,16 @@ const express = require("express");
 const https = require("https");
 
 const app = express();
-const server = https.createServer(app);
+
+const options = {
+    key: fs.readFileSync('/etc/ssl/sslcs/cloudstaff.key'),
+    cert: fs.readFileSync('/etc/ssl/sslcs/cloudstaff.crt'),
+
+    requestCert: false,
+    rejectUnauthorized: false
+}
+
+const server = https.createServer(options, app);
 
 const io = require("socket.io")(server, {
     cors: {
